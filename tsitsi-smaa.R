@@ -42,7 +42,7 @@ write.csv(res_knownwts,"results/scores-with-given-wts.csv")
 
 # weights are uncertain and stakeholder dependent, vary these with SMAA
 
-N <- 100000
+N <- 300000
 names.att <- names(data_t0)
 names.alt <- row.names(data_t0)
 
@@ -69,9 +69,9 @@ ggsave("results/cw_tall.png", smaa_tall$plotcw_red, width=7, height=6.5, dpi=200
 # assessments of management scenarios also uncertain, test these
 
 # generic uncertainty, applied to all scenarios equally
-meas_t0u <- apply_uncertainty(meas = smaa_copy(data_t0, N = N), alts = 1:7, ecou = c(0.2,0.2), envu = c(0.2,0.2))
-meas_t5u <- apply_uncertainty(meas = smaa_copy(data_t5, N = N), alts = 1:7, ecou = c(0.4,0.4), envu = c(0.4,0.4))
-meas_t10u <- apply_uncertainty(meas = smaa_copy(data_t10, N = N), alts = 1:7, ecou = c(0.6,0.6), envu = c(0.6,0.6))
+meas_t0u <- apply_uncertainty(meas = smaa_copy(data_t0, N = N), alts = 1:7, ecou = c(-10,10), envu = c(-10,10))
+meas_t5u <- apply_uncertainty(meas = smaa_copy(data_t5, N = N), alts = 1:7, ecou = c(-20,20), envu = c(-20,20))
+meas_t10u <- apply_uncertainty(meas = smaa_copy(data_t10, N = N), alts = 1:7, ecou = c(-30,30), envu = c(-30,30))
 
 meas <- get_scores(d=0.06, dt0 = meas_t0u, dt5 = meas_t5u, dt10 = meas_t10u)
 smaa_tall_wu <- do_smaa(meas = meas, attnames = names.att, altnames = names.alt)
@@ -80,12 +80,12 @@ ggsave("results/cw_tall_wu.png", smaa_tall_wu$plotcw_red, width=7, height=6.5, d
 rm(meas_t0u, meas_t5u, meas_t10u)
 
 # only downside uncertainty, applied to MPA closed scenarios
-meas_t0u <- apply_uncertainty(meas = smaa_copy(data_t0, N = N), alts = 1:2, ecou = c(0.2,0), envu = c(0.2,0))
-meas_t0u <- apply_uncertainty(meas = meas_t0u, alts = 3:7, ecou = c(0,0.2), envu = c(0,0.2))
-meas_t5u <- apply_uncertainty(meas = smaa_copy(data_t5, N = N), alts = 1:2, ecou = c(0.4,0), envu = c(0.4,0))
-meas_t5u <- apply_uncertainty(meas = meas_t5u, alts = 3:7, ecou = c(0,0.4), envu = c(0.4,0.4))
-meas_t10u <- apply_uncertainty(meas = smaa_copy(data_t10, N = N), alts = 1:2, ecou = c(0.6,0), envu = c(0.6,0))
-meas_t10u <- apply_uncertainty(meas = meas_t10u, alts = 3:7, ecou = c(0,0.6), envu = c(0,0.6))
+meas_t0u <- apply_uncertainty(meas = smaa_copy(data_t0, N = N), alts = 1:2, ecou = c(-10,10), envu = c(-10,0))
+meas_t0u <- apply_uncertainty(meas = meas_t0u, alts = 3:7, ecou = c(-10,10), envu = c(0,10))
+meas_t5u <- apply_uncertainty(meas = smaa_copy(data_t5, N = N), alts = 1:2, ecou = c(-10,10), envu = c(-20,0))
+meas_t5u <- apply_uncertainty(meas = meas_t5u, alts = 3:7, ecou = c(-20,20), envu = c(0,20))
+meas_t10u <- apply_uncertainty(meas = smaa_copy(data_t10, N = N), alts = 1:2, ecou = c(-10,10), envu = c(-30,0))
+meas_t10u <- apply_uncertainty(meas = meas_t10u, alts = 3:7, ecou = c(-30,30), envu = c(0,30))
 
 meas <- get_scores(d=0.06, dt0 = meas_t0u, dt5 = meas_t5u, dt10 = meas_t10u)
 smaa_tall_wu2 <- do_smaa(meas = meas, attnames = names.att, altnames = names.alt)

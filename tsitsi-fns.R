@@ -96,20 +96,20 @@ do_smaa <- function(meas,attnames,altnames){
 apply_uncertainty <- function(meas,alts,envu=c(0,0),ecou=c(0,0),socu=c(0,0),polu=c(0,0)){
   
   # environmental uncertainty
-  meas[,alts,1:6] <- meas[,alts,1:6] * runif(prod(dim(meas[,alts,1:6])), min = 1 - envu[1], max = 1 + envu[2])
-  meas[,,1:6] <- meas[,,1:6] / max(meas[,,1:6])
+  meas[,alts,1:6] <- meas[,alts,1:6] + runif(prod(dim(meas[,alts,1:6])), min = envu[1], max = envu[2])
+  meas[,,1:6] <- (meas[,,1:6] - min(meas[,,1:6])) / (max(meas[,,1:6]) - min(meas[,,1:6]))
   
   # economic uncertainty  
-  meas[,alts,7:11] <- meas[,alts,7:11] * runif(prod(dim(meas[,alts,7:11])), min = 1 - ecou[1], max = 1 + ecou[2])
-  meas[,,7:11] <- meas[,,7:11] / max(meas[,,7:11])
+  meas[,alts,7:11] <- meas[,alts,7:11] + runif(prod(dim(meas[,alts,7:11])), min = ecou[1], max = ecou[2])
+  meas[,,7:11] <- (meas[,,7:11] - min(meas[,,7:11])) / (max(meas[,,7:11]) - min(meas[,,7:11]))
   
   # equity (social) uncertainty
-  meas[,alts,12:16] <- meas[,alts,12:16] * runif(prod(dim(meas[,alts,12:16])), min = 1 - socu[1], max = 1 + socu[2])
-  meas[,,12:16] <- meas[,,12:16] / max(meas[,,12:16])
+  meas[,alts,12:16] <- meas[,alts,12:16] + runif(prod(dim(meas[,alts,12:16])), min = socu[1], max = socu[2])
+  meas[,,12:16] <- (meas[,,12:16] - min(meas[,,12:16])) / (max(meas[,,12:16]) - min(meas[,,12:16]))
   
   # equity (political) uncertainty
-  meas[,alts,17:20] <- meas[,alts,17:20] * runif(prod(dim(meas[,alts,17:20])), min = 1 - polu[1], max = 1 + polu[2])
-  meas[,,17:20] <- meas[,,17:20] / max(meas[,,17:20])
+  meas[,alts,17:20] <- meas[,alts,17:20] + runif(prod(dim(meas[,alts,17:20])), min = polu[1], max = polu[2])
+  meas[,,17:20] <- (meas[,,17:20] - min(meas[,,17:20])) / (max(meas[,,17:20]) - min(meas[,,17:20]))
   
   return(meas)
 }
