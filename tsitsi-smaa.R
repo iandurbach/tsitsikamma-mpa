@@ -70,8 +70,8 @@ ggsave("results/cw_tall.png", smaa_tall$plotcw_red, width=7, height=6.5, dpi=200
 
 # generic uncertainty, applied to all scenarios equally
 meas_t0u <- apply_uncertainty(meas = smaa_copy(data_t0, N = N), alts = 1:7, ecou = c(-10,10), envu = c(-10,10))
-meas_t5u <- apply_uncertainty(meas = smaa_copy(data_t5, N = N), alts = 1:7, ecou = c(-20,20), envu = c(-20,20))
-meas_t10u <- apply_uncertainty(meas = smaa_copy(data_t10, N = N), alts = 1:7, ecou = c(-30,30), envu = c(-30,30))
+meas_t5u <- apply_uncertainty(meas = smaa_copy(data_t5, N = N), alts = 1:7, ecou = c(-15,15), envu = c(-15,15))
+meas_t10u <- apply_uncertainty(meas = smaa_copy(data_t10, N = N), alts = 1:7, ecou = c(-20,20), envu = c(-20,20))
 
 meas <- get_scores(d=0.06, dt0 = meas_t0u, dt5 = meas_t5u, dt10 = meas_t10u)
 smaa_tall_wu <- do_smaa(meas = meas, attnames = names.att, altnames = names.alt)
@@ -82,10 +82,10 @@ rm(meas_t0u, meas_t5u, meas_t10u)
 # only downside uncertainty, applied to MPA closed scenarios
 meas_t0u <- apply_uncertainty(meas = smaa_copy(data_t0, N = N), alts = 1:2, ecou = c(-10,10), envu = c(-10,0))
 meas_t0u <- apply_uncertainty(meas = meas_t0u, alts = 3:7, ecou = c(-10,10), envu = c(0,10))
-meas_t5u <- apply_uncertainty(meas = smaa_copy(data_t5, N = N), alts = 1:2, ecou = c(-10,10), envu = c(-20,0))
-meas_t5u <- apply_uncertainty(meas = meas_t5u, alts = 3:7, ecou = c(-20,20), envu = c(0,20))
-meas_t10u <- apply_uncertainty(meas = smaa_copy(data_t10, N = N), alts = 1:2, ecou = c(-10,10), envu = c(-30,0))
-meas_t10u <- apply_uncertainty(meas = meas_t10u, alts = 3:7, ecou = c(-30,30), envu = c(0,30))
+meas_t5u <- apply_uncertainty(meas = smaa_copy(data_t5, N = N), alts = 1:2, ecou = c(-20,20), envu = c(-15,0))
+meas_t5u <- apply_uncertainty(meas = meas_t5u, alts = 3:7, ecou = c(-20,20), envu = c(0,15))
+meas_t10u <- apply_uncertainty(meas = smaa_copy(data_t10, N = N), alts = 1:2, ecou = c(-30,30), envu = c(-20,0))
+meas_t10u <- apply_uncertainty(meas = meas_t10u, alts = 3:7, ecou = c(-30,30), envu = c(0,20))
 
 meas <- get_scores(d=0.06, dt0 = meas_t0u, dt5 = meas_t5u, dt10 = meas_t10u)
 smaa_tall_wu2 <- do_smaa(meas = meas, attnames = names.att, altnames = names.alt)
