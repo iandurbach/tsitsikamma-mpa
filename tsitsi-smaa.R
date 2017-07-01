@@ -12,31 +12,26 @@ source("tsitsi-fns.R")
 
 # ranking at t_0
 scores_t0 <- (as.matrix(data_t0) %*% matrix(wts,ncol=1))
-sc_t0 <- scores_t0[order(scores_t0,decreasing = T),]
 
 # ranking at t_5
 scores_t5 <- (as.matrix(data_t5) %*% matrix(wts,ncol=1))
-sc_t5 <- scores_t5[order(scores_t5,decreasing = T),]
 
 # ranking at t_10
 scores_t10 <- (as.matrix(data_t10) %*% matrix(wts,ncol=1))
-sc_t10 <- scores_t10[order(scores_t10,decreasing = T),]
 
 # overall ranking depends on discount rate, first try no discounting
 ddata <- get_scores(d=0, dt0 = data_t0, dt5 = data_t5, dt10 = data_t10)
-scores <- (as.matrix(ddata) %*% matrix(wts,ncol=1))
-sc_all <- scores[order(scores,decreasing = T),]
+scores_d0 <- (as.matrix(ddata) %*% matrix(wts,ncol=1))
 
 # heavy discounting won't change much, because similar rankings at each t
 ddata <- get_scores(d=0.06, dt0 = data_t0, dt5 = data_t5, dt10 = data_t10)
-scores <- (as.matrix(ddata) %*% matrix(wts,ncol=1))
-sc_d6 <- scores[order(scores,decreasing = T),]
+scores_d6 <- (as.matrix(ddata) %*% matrix(wts,ncol=1))
 
 ddata <- get_scores(d=0.1, dt0 = data_t0, dt5 = data_t5, dt10 = data_t10)
-scores <- (as.matrix(ddata) %*% matrix(wts,ncol=1))
-sc_d10 <- scores[order(scores,decreasing = T),]
+scores_d10 <- (as.matrix(ddata) %*% matrix(wts,ncol=1))
 
-res_knownwts <- cbind(sc_t0,sc_t5,sc_t10,sc_all,sc_d6,sc_d10)
+res_knownwts <- cbind(scores_t0,scores_t5,scores_t10,scores_d0,scores_d6,scores_d10)
+res_knownwts <- res_knownwts[order(res_knownwts[,2],decreasing = TRUE),]
 
 write.csv(res_knownwts,"results/scores-with-given-wts.csv")
 
